@@ -1,0 +1,21 @@
+<mat-card>
+
+    <form (submit)="onAddPost(postForm)" #postForm="ngForm">
+        <mat-form-field>
+        <input matInput rows="4" name = "title" #title="ngModel" ngModel required>
+        <mat-error *ngIf="title.invalid">Please enter a post Tiltle </mat-error>
+        </mat-form-field>   
+         <mat-form-field>
+            <textarea 
+            matInput 
+            rows="4" 
+            name = "content" ngModel required>New Content</textarea>
+            
+        </mat-form-field>
+        <button 
+        mat-button 
+        color = 'primary'
+        type = "submit">Save Post</button>
+    </form>
+    
+</mat-card>
