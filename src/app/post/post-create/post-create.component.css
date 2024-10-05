@@ -2,7 +2,8 @@ mat-card{
     width: 80%;
     margin: auto;
 }
-mat-form-field, textarea
+mat-form-field, textarea, form
 textarea{
     width: 100%;
+    align-items: center;
 }

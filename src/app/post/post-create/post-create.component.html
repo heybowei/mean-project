@@ -2,15 +2,25 @@
 
     <form (submit)="onAddPost(postForm)" #postForm="ngForm">
         <mat-form-field>
-        <input matInput rows="4" name = "title" #title="ngModel" ngModel required>
-        <mat-error *ngIf="title.invalid">Please enter a post Tiltle </mat-error>
+            <input 
+            matInput 
+            rows="4" 
+            name = "title" 
+            #title="ngModel" 
+            ngModel 
+            placeholder="Enter Title"
+            required>
+            <mat-error *ngIf="title.invalid">Please enter a post Tiltle </mat-error>
         </mat-form-field>   
          <mat-form-field>
             <textarea 
             matInput 
             rows="4" 
-            name = "content" ngModel required>New Content</textarea>
-            
+            name = "content" 
+            ngModel 
+            placeholder="Enter Content"
+            required>New Content</textarea>
+            <mat-error *ngIf="title.invalid">Please enter a post Content </mat-error>    
         </mat-form-field>
         <button 
         mat-button 
