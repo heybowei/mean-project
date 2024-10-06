@@ -14,6 +14,7 @@ import { HeaderComponent } from './header/header.component';
 import { PostListComponent } from './post/post-list/post-list.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
+import { provideHttpClient, HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -31,10 +32,12 @@ import { MatIconModule } from '@angular/material/icon';
     MatButtonModule,
     MatToolbarModule,
     MatExpansionModule,
-    MatIconModule
+    MatIconModule,
+    HttpClientModule
   ],
   providers: [
-    provideAnimationsAsync()
+    provideAnimationsAsync(),
+    provideHttpClient()
   ],
   bootstrap: [AppComponent]
 })
