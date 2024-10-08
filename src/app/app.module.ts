@@ -15,6 +15,7 @@ import { PostListComponent } from './post/post-list/post-list.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { provideHttpClient, HttpClientModule } from '@angular/common/http';
+import { MatMenuModule } from '@angular/material/menu';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { provideHttpClient, HttpClientModule } from '@angular/common/http';
     MatToolbarModule,
     MatExpansionModule,
     MatIconModule,
-    HttpClientModule
+    HttpClientModule,
+    MatMenuModule
   ],
   providers: [
     provideAnimationsAsync(),
