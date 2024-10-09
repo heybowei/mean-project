@@ -7,3 +7,21 @@ textarea{
     width: 100%;
     align-items: center;
 }
+
+mat-spinner{
+    margin: auto;
+}
+
+input[type="file"]{
+    visibility: hidden;
+}
+
+.imagepreview{
+    height: 5rem;
+    margin: 1rem 0;
+    align-items: center;
+}
+
+.imagepreview img{
+    height: 100%;
+}

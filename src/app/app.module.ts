@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
@@ -16,6 +16,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { provideHttpClient, HttpClientModule } from '@angular/common/http';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,7 @@ import { MatMenuModule } from '@angular/material/menu';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule,
+    ReactiveFormsModule,
     MatInputModule,
     MatCardModule,
     MatButtonModule,
@@ -35,6 +36,7 @@ import { MatMenuModule } from '@angular/material/menu';
     MatExpansionModule,
     MatIconModule,
     HttpClientModule,
+    MatProgressSpinnerModule,
     MatMenuModule
   ],
   providers: [
