@@ -1,8 +1,11 @@
 import { AbstractControl } from "@angular/forms";
-import { Observable, Observer } from "rxjs";
+import { Observable, Observer, of } from "rxjs";
 
 export const mimetype = (control : AbstractControl): 
 Promise<{[key: string]: any}> | Observable<{[key: string]: any} | null> => {
+    if(typeof(control.value === 'string')){
+        return of(null);
+    }
     const file = control.value as File;
     const fileReader = new FileReader();
     const frObs = new Observable((observer: Observer<{[key: string]: any} | null>) => {
@@ -13,8 +16,6 @@ Promise<{[key: string]: any}> | Observable<{[key: string]: any} | null> => {
             for(let i = 0; i < arr.length; i++){
                 header += arr[i].toString(16);
             }
-            console.log("filetype:")
-            console.log(header)
             switch (header) {
                 case "85904e47":
                     isValid = true;

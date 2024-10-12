@@ -13,12 +13,12 @@ import { mimetype } from "./mime-type.validator";
 export class PostCreateComponent implements OnInit{
     constructor(public postsService: PostsService, public routeModule: ActivatedRoute ){}
 
-    post: Post = {id: '', title: '', content: ''};
+    post: Post = {id: '', title: '', content: '', filePath: ''};
     isLoading = false;
     form = new FormGroup({
         title: new FormControl('', {validators: [Validators.required, Validators.minLength(3)]}),
         content: new FormControl('', {validators: [Validators.required]}),
-        image: new FormControl<File|null>(null, {validators: [Validators.required], asyncValidators: [mimetype]})
+        image: new FormControl<string|File|null>(null, {validators: [Validators.required], asyncValidators: [mimetype]})
     });
     imagepreview = '';
     
@@ -39,16 +39,14 @@ export class PostCreateComponent implements OnInit{
                  .subscribe(postData => {
                     this.title = postData.title;
                     this.content = postData.content;
-                    console.log(this.title);
                     this.post = {
-                        id: this.postId, title: this.title, content: this.content
-                    }
+                        id: this.postId, title: this.title, content: this.content, filePath: postData.filePath
+                    };
                     this.form.patchValue({
-                        title: this.post.title, content: this.post.content
+                        title: this.post.title, content: this.post.content, image: this.post.filePath
                     });
+                    console.log(this.form.value);
                  });
-                //this.title = this.postsService.getPost(this.postId).title ?? '';
-                //this.content = this.postsService.getPost(this.postId).content ?? '';
                 
             } else{
                 this.mode = 'create';
@@ -63,9 +61,9 @@ export class PostCreateComponent implements OnInit{
             return;
         }
         if(this.mode === 'create'){
-            this.postsService.addPosts((this.form.value.title as string), (this.form.value.content as string));
+            this.postsService.addPosts((this.form.value.title as string), (this.form.value.content as string), (this.form.value.image as File));
         } else {
-            this.postsService.updatePost(this.postId, (this.form.value.title as string), (this.form.value.content as string));
+            this.postsService.updatePost(this.postId, (this.form.value.title as string), (this.form.value.content as string), this.form.value.image);
         }
         this.form.reset();
     }
@@ -77,7 +75,6 @@ export class PostCreateComponent implements OnInit{
             if(pic){
                 this.form.patchValue({image: pic});
                 this.form.get('image')?.updateValueAndValidity;
-                console.log(pic);
                 const reader = new FileReader();
                 reader.onload = () => {
                     this.imagepreview = reader.result as string;
@@ -85,6 +82,5 @@ export class PostCreateComponent implements OnInit{
                 reader.readAsDataURL(pic);
             }
         }
-        console.log(this.form);
     }
 }
