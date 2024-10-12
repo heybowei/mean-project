@@ -17,7 +17,8 @@
             <input type = "file" #filepicker (change) = "onImagePicked($event)">
         </div>
         <div class = "imagepreview">
-            <img *ngIf="this.imagepreview && this.imagepreview !== ''" [src] = "this.imagepreview" [alt] = "this.form.get('title')">
+            <img *ngIf="this.imagepreview && this.imagepreview !== '' && form.get('image')?.valid"
+             [src] = "this.imagepreview" [alt] = "this.form.get('title')">
         </div>
          <mat-form-field>
             <textarea 
