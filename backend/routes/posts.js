@@ -1,5 +1,5 @@
-const express = require("express")
-const multer = require("multer")
+const express = require("express");
+const multer = require("multer");
 
 const fileMap = {
     'image/png': 'png',
@@ -26,8 +26,9 @@ const storage = multer.diskStorage({
 
 const Post = require('../module/post');
 const { Error } = require("mongoose");
+const authCheck = require("../auth-check/auth-check")
 
-router.post('', multer({storage: storage}).single("image"), (req, res, next) =>{
+router.post('', authCheck, multer({storage: storage}).single("image"), (req, res, next) =>{
     const url = req.protocol + '://' + req.get("host");
     const post = new Post({
         title: req.body.title,
@@ -85,14 +86,14 @@ router.get('/:id', (req, res, next) =>{
 });
 
 
-router.delete('/:id', (req, res, next)=>{
+router.delete('/:id', authCheck, (req, res, next)=>{
     Post.deleteOne({_id: req.params.id})
     .then((result) =>{
         res.status(200).json({ message: "delete successfully" });
     });
 });
 
-router.put('/:id', multer({storage: storage}).single("image"), (req, res, next)=>{
+router.put('/:id', authCheck, multer({storage: storage}).single("image"), (req, res, next)=>{
     let filePath = req.body.filePath;
     if(req.file){
         const url = req.protocol + '://' + req.get("host");

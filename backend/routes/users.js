@@ -1,5 +1,6 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 const router = express.Router();
 
@@ -25,6 +26,44 @@ router.post('/signup', (req, res, next) => {
             })
         });
      })
+})
+
+router.post('/login', (req, res, next) => {
+    let fetchedUser;
+    User.findOne({email: req.body.email})
+     .then(user => {
+        fetchedUser = user;
+        if(!user){
+            return res.status(401).json({
+                message: "user not exists"
+            });
+        }
+        return bcrypt.compare(req.body.password, user.password);
+     })
+     .then(result =>{
+        if(!result){
+            return res.status(401).json({
+                message: "wrong password"
+            })
+        }
+        const token = jwt.sign({
+            email: fetchedUser.email, 
+            userID: fetchedUser._id}, 
+            "this_is_bowei's_angular_project", 
+            {expiresIn: "1h"}
+        );
+        res.status(200).json({
+            token: token,
+            message: "login successfully!"
+        });
+     })
+      .catch(err => {
+        console.log(err);
+        res.status(401).json({
+            message: "something wrong",
+            err: err
+        })
+      })
 })
 
 module.exports = router;
