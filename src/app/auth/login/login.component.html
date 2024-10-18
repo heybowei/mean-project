@@ -25,6 +25,7 @@
         <button 
         mat-button 
         color = 'primary'
-        type = "submit">Login</button>
+        type = "submit"
+        *ngIf = "!isLoading">Login</button>
     </form> 
 </mat-card>

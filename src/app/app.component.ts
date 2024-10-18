@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { AuthService } from './auth/auth.service';
 
 interface Post {
   title: string;
@@ -10,10 +11,12 @@ interface Post {
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
-export class AppComponent {
-  title = 'mean_course';
-  sharedPosts: Post[] = [];
-  onPostAdded(post: Post){
-    this.sharedPosts.push(post);
+
+export class AppComponent implements OnInit {
+  constructor(private authService : AuthService){}
+
+  ngOnInit(): void {
+    this.authService.autoAuth();
   }
+  
 }

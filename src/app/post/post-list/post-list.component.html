@@ -10,9 +10,9 @@
             <img [src] = "post.filePath" [alt] = "post.title">
         </div>
         {{ post.id }}
-        <a mat-button color="primary" [routerLink]="['/edit', post.id]"> Edit </a>
+        <a mat-button *ngIf = "isAuth" color="primary" [routerLink]="['/edit', post.id]"> Edit </a>
 
-        <button mat-button color="warn" (click)="onDelete(post.id)"> Delete </button>
+        <button mat-button *ngIf = "isAuth" color="warn" (click)="onDelete(post.id)"> Delete </button>
 
     </mat-expansion-panel>
 </mat-accordion>

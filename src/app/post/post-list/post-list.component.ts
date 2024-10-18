@@ -3,6 +3,7 @@ import { PostsService } from "../posts.service";
 import { Post } from '../post.model'
 import { Observable, Subscription } from "rxjs";
 import { PageEvent } from "@angular/material/paginator";
+import { AuthService } from "../../auth/auth.service";
 
 @Component({
     selector: 'app-post-list',
@@ -18,9 +19,11 @@ export class PostListComponent implements OnInit, OnDestroy{
     posts: Post[] = [];
     maxPosts = 0;
     isLoading = false;
+    isAuth = false;
     private postsSub: Subscription = new Subscription();
+    private authSub: Subscription = new Subscription();
 
-    constructor(public postsService : PostsService){
+    constructor(public postsService : PostsService, private authSer: AuthService){
         //this.postsSub = new Subscription();
     }
 
@@ -31,6 +34,10 @@ export class PostListComponent implements OnInit, OnDestroy{
             this.posts = postData.posts;
             this.maxPosts = postData.maxPosts;
             this.isLoading = false;
+        });
+        this.isAuth = this.authSer.getIsAuth();
+        this.authSub = this.authSer.getAuthStatus().subscribe(authInfo => {
+            this.isAuth = authInfo;
         });
         
     }

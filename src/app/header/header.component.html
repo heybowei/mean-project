@@ -12,20 +12,24 @@
 
     <span class="spacer"></span>
     <span>
-      <ul>
+      <ul *ngIf = "userIsAuthed">
         <a routerLink="/create" routerLinkActive="mat-accent"><button mat-button>New Post</button></a>
       </ul>
     </span>
 
     <span>
-      <ul>
+      <ul *ngIf = "!userIsAuthed">
         <a routerLink="/login" routerLinkActive="mat-accent"><button mat-button>Login</button></a>
       </ul>
     </span>
 
     <span>
-      <ul>
+      <ul *ngIf = "!userIsAuthed">
         <a routerLink="/signup" routerLinkActive="mat-accent"><button mat-button>Sign Up</button></a>
       </ul>
     </span>
+    <ul *ngIf = "userIsAuthed">
+      <button mat-button (click)="logout()">Log Out</button>
+    </ul>
+      
 </mat-toolbar>
