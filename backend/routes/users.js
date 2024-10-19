@@ -55,6 +55,8 @@ router.post('/login', (req, res, next) => {
         res.status(200).json({
             token: token,
             activeTime: 3600,
+            userID: fetchedUser._id,
+            email: fetchedUser.email,
             message: "login successfully!"
         });
      })

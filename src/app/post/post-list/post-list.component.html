@@ -2,17 +2,19 @@
 <mat-accordion multi="true" *ngIf = "posts.length > 0 && !isLoading">
     <mat-expansion-panel *ngFor = "let post of posts">
         <mat-expansion-panel-header>
-            {{post.title}}
+            {{post.title}}  
         </mat-expansion-panel-header>
+        {{ post.creator }}
+        <hr>
         {{ post.content }}
         <hr>
         <div class = "postimage">
             <img [src] = "post.filePath" [alt] = "post.title">
         </div>
-        {{ post.id }}
-        <a mat-button *ngIf = "isAuth" color="primary" [routerLink]="['/edit', post.id]"> Edit </a>
+        
+        <a mat-button *ngIf = "isAuth && userID === post.creator" color="primary" [routerLink]="['/edit', post.id]"> Edit </a>
 
-        <button mat-button *ngIf = "isAuth" color="warn" (click)="onDelete(post.id)"> Delete </button>
+        <button mat-button *ngIf = "isAuth && userID === post.creator" color="warn" (click)="onDelete(post.id)"> Delete </button>
 
     </mat-expansion-panel>
 </mat-accordion>

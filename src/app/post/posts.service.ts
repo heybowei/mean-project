@@ -14,13 +14,15 @@ export class PostsService{
         const query = `?pagesize=${postPerPage}&page=${page}`;
         this.http.get<{message: string, posts: any, postsCount: number}>("http://localhost:3000/api/posts" + query)
          .pipe(map((postData) =>{
+            console.log(postData);
             return {
                 post: postData.posts.map((post: any) =>{
                     return {
                         title: post.title,
                         content: post.content,
                         id: post._id,
-                        filePath: post.filePath
+                        filePath: post.filePath,
+                        creator: post.creator
                     };
                 }),
                 maxPosts: postData.postsCount
@@ -32,7 +34,7 @@ export class PostsService{
     }
 
     getPost(postId: string){
-        return this.http.get<{title: string, content: string, filePath: string}>("http://localhost:3000/api/posts/" + postId);
+        return this.http.get<{title: string, content: string, filePath: string, creator: string}>("http://localhost:3000/api/posts/" + postId);
         //return {...this.posts.find(p => p.id === postId)};
     }
 
@@ -54,7 +56,7 @@ export class PostsService{
     }
 
     updatePost(Id:string, title: string, content: string, file: any){
-        let postData;
+        let postData : Post| FormData;
         if(typeof(file) === 'object'){
             postData = new FormData();
             postData.append("title", title);
@@ -66,7 +68,8 @@ export class PostsService{
                 id: Id,
                 title: title,
                 content: content,
-                filePath: file
+                filePath: file,
+                creator: ''
             }; 
         }
         this.http.put("http://localhost:3000/api/posts/" + Id, postData)

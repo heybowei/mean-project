@@ -13,7 +13,7 @@ import { mimetype } from "./mime-type.validator";
 export class PostCreateComponent implements OnInit{
     constructor(public postsService: PostsService, public routeModule: ActivatedRoute ){}
 
-    post: Post = {id: '', title: '', content: '', filePath: ''};
+    post: Post = {id: '', title: '', content: '', filePath: '', creator: ''};
     isLoading = false;
     form = new FormGroup({
         title: new FormControl('', {validators: [Validators.required, Validators.minLength(3)]}),
@@ -40,7 +40,7 @@ export class PostCreateComponent implements OnInit{
                     this.title = postData.title;
                     this.content = postData.content;
                     this.post = {
-                        id: this.postId, title: this.title, content: this.content, filePath: postData.filePath
+                        id: this.postId, title: this.title, content: this.content, filePath: postData.filePath, creator: postData.creator
                     };
                     this.form.patchValue({
                         title: this.post.title, content: this.post.content, image: this.post.filePath

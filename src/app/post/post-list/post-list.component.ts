@@ -20,6 +20,7 @@ export class PostListComponent implements OnInit, OnDestroy{
     maxPosts = 0;
     isLoading = false;
     isAuth = false;
+    userID: string = "";
     private postsSub: Subscription = new Subscription();
     private authSub: Subscription = new Subscription();
 
@@ -28,15 +29,18 @@ export class PostListComponent implements OnInit, OnDestroy{
     }
 
     ngOnInit() {
+        this.userID = this.authSer.userID;
         this.isLoading = true;
         this.postsService.getPosts(this.postPerPage, this.currentPage);
         this.postsSub = this.postsService.getPostUpdateListener().subscribe((postData: {posts: Post[], maxPosts: number}) => {
             this.posts = postData.posts;
             this.maxPosts = postData.maxPosts;
             this.isLoading = false;
+            console.log(this.posts);
         });
         this.isAuth = this.authSer.getIsAuth();
         this.authSub = this.authSer.getAuthStatus().subscribe(authInfo => {
+            this.userID = this.authSer.userID;
             this.isAuth = authInfo;
         });
         

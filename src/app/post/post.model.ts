@@ -3,4 +3,5 @@ export interface Post{
     title:string;
     content:string;
     filePath: string;
+    creator: string;
 }

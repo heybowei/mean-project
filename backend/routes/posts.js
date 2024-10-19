@@ -33,7 +33,8 @@ router.post('', authCheck, multer({storage: storage}).single("image"), (req, res
     const post = new Post({
         title: req.body.title,
         content: req.body.content,
-        filePath: url + "/images/" + req.file.filename
+        filePath: url + "/images/" + req.file.filename,
+        creator: req.userData.userID
     });
     post.save()
      .then(result =>{
@@ -87,9 +88,16 @@ router.get('/:id', (req, res, next) =>{
 
 
 router.delete('/:id', authCheck, (req, res, next)=>{
-    Post.deleteOne({_id: req.params.id})
+
+    Post.deleteOne({_id: req.params.id, creator: req.userData.userID})
     .then((result) =>{
-        res.status(200).json({ message: "delete successfully" });
+        if(result.n > 0){
+            res.status(200).json({ message: "delete successfully" });
+        }
+        else {
+            res.status(401).json({message: "Not Authed!"});
+        }
+        
     });
 });
 
@@ -103,12 +111,18 @@ router.put('/:id', authCheck, multer({storage: storage}).single("image"), (req, 
         _id: req.params.id,
         title: req.body.title,
         content: req.body.content,
-        filePath: filePath
+        filePath: filePath,
+        creator: req.userData.userID
     });
-    console.log(post);
-    Post.updateOne({_id: req.params.id}, post)
+
+    Post.updateOne({_id: req.params.id, creator: req.userData.userID}, post)
     .then(result =>{
-        res.status(200).json({ message: 'Updated successfully', post: post});
+        if(result.n > 0){
+            res.status(200).json({ message: 'Updated successfully', post: post});
+        } else {
+            res.status(401).json({ message: 'Not Authed!'});
+        }
+        
     });
     
 });

@@ -10,6 +10,12 @@
       </ul>
     </span>
 
+    <span class = "welcome">
+      <h2 *ngIf="email">
+        Welcome, {{email}}
+      </h2>
+    </span>
+
     <span class="spacer"></span>
     <span>
       <ul *ngIf = "userIsAuthed">
