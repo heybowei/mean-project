@@ -1,17 +1,19 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators }   from '@angular/forms';
 import { PostsService } from "../posts.service";
 import { ActivatedRoute, ParamMap, RouterModule } from "@angular/router";
 import { Post } from "../post.model";
 import { mimetype } from "./mime-type.validator";
+import { Subscription } from "rxjs";
+import { AuthService } from "../../auth/auth.service";
 
 @Component({
     selector: 'app-post-create',
     templateUrl: './post-create.component.html',
     styleUrl: './post-create.component.css'
 })
-export class PostCreateComponent implements OnInit{
-    constructor(public postsService: PostsService, public routeModule: ActivatedRoute ){}
+export class PostCreateComponent implements OnInit, OnDestroy{
+    constructor(public postsService: PostsService, public routeModule: ActivatedRoute , public authService : AuthService){}
 
     post: Post = {id: '', title: '', content: '', filePath: '', creator: ''};
     isLoading = false;
@@ -21,7 +23,7 @@ export class PostCreateComponent implements OnInit{
         image: new FormControl<string|File|null>(null, {validators: [Validators.required], asyncValidators: [mimetype]})
     });
     imagepreview = '';
-    
+    private authStatusSub = new Subscription();
     private postId = '';
     private mode = 'create';
     private title = '';
@@ -31,6 +33,9 @@ export class PostCreateComponent implements OnInit{
 
     ngOnInit(): void {
         //this.test = 'hey';
+        this.authStatusSub = this.authService.authStatusListener.subscribe(authStatus => {
+            this.isLoading = false;
+        });
         this.routeModule.paramMap.subscribe((paramMap: ParamMap)=>{
             if(paramMap.has('postId')){
                 this.mode = 'edit';
@@ -82,5 +87,9 @@ export class PostCreateComponent implements OnInit{
                 reader.readAsDataURL(pic);
             }
         }
+    }
+
+    ngOnDestroy(): void {
+        this.authStatusSub.unsubscribe();
     }
 }

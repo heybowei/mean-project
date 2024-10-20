@@ -9,7 +9,7 @@ module.exports = (req, res, next) =>{
     }
     catch(error) {
         res.status(401).json({
-            message: "auth failed",
+            message: "Not Authed",
             error: error
         });
     }

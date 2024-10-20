@@ -46,7 +46,13 @@ router.post('', authCheck, multer({storage: storage}).single("image"), (req, res
             content: result.content,
             filePath: post.filePath
         }
-     });
+     }
+     .catch(error => {
+        res.status(500).json({
+            message: "upload post failed!"
+        })
+     })
+    );
     });
     //const post = req.body; 
 });
@@ -71,6 +77,11 @@ router.get('', (req, res, next) =>{
             posts: fetchedPosts,
             postsCount: count
         });
+    })
+    .catch(error => {
+        res.status(500).json({
+            message: "fetched posts failed!"
+        })
     });
 });
 

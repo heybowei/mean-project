@@ -8,7 +8,7 @@ import { Router } from "@angular/router";
 @Injectable({providedIn: 'root'})
 export class AuthService{
 
-    private authStatusListener = new Subject<boolean>();
+    authStatusListener = new Subject<boolean>();
     private timer: any;
 
     private token: string = '';
@@ -24,6 +24,8 @@ export class AuthService{
         this.http.post("http://localhost:3000/api/users/signup", user)
          .subscribe(response => {
             console.log(response);
+         }, error => {
+            this.authStatusListener.next(false);
          });
     }
 
@@ -44,6 +46,7 @@ export class AuthService{
         }
         this.http.post<{token: string, activeTime: number, userID: string, email: string}>("http://localhost:3000/api/users/login", user)
          .subscribe(response => {
+            console.log(response);
             const token = response.token;
             this.token = token;
             if(token){
@@ -57,6 +60,8 @@ export class AuthService{
                 this.authStatusListener.next(true);
                 this.router.navigate(["/"]);
             }
+         }, error => {
+            this.authStatusListener.next(false);
          });
     }
 
